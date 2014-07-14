@@ -94,10 +94,11 @@ WHERE id NOT IN (SELECT article_id FROM comments);
 */
 
 -- query to select article which has maximum comments
-SELECT article, count(C.article_id)
+SELECT article, count(C.article_id) AS count
 FROM articles A, comments C
 WHERE A.id = C.article_id
 GROUP BY C.article_id
+ORDER BY count DESC
 LIMIT 1;
 
 /*
