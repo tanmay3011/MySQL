@@ -25,8 +25,8 @@ DROP TABLE IF EXISTS `articles`;
 CREATE TABLE `articles` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned DEFAULT NULL,
-  `article` varchar(20) DEFAULT NULL,
-  `category` varchar(10) DEFAULT NULL,
+  `body` text,
+  `category` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `user_id` (`user_id`),
@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comments` (
-  `comment` varchar(20) DEFAULT NULL,
+  `body` text,
   `user_id` bigint(20) unsigned DEFAULT NULL,
   `article_id` bigint(20) unsigned DEFAULT NULL,
   KEY `user_id` (`user_id`),
@@ -68,7 +68,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES ('et dolore',5,1),('magna aliqua',4,2),('Ut enim',3,3),('ad minim',1,1),('veniam quis',2,5),('nostrud exercitation',5,1),('ullamco laboris',4,2);
+INSERT INTO `comments` VALUES ('et dolore',5,1),('magna aliqua',4,2),('Ut enim',3,3),('ad minim',1,1),('veniam quis',2,5),('nostrud exercitation',5,1),('ullamco laboris',4,2),('et dolore',5,1),('magna aliqua',4,2),('Ut enim',3,3),('ad minim',1,1),('veniam quis',2,5),('nostrud exercitation',5,1),('ullamco laboris',4,2);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-13 17:40:18
+-- Dump completed on 2014-07-15 23:37:49

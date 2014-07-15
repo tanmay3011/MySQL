@@ -1,11 +1,11 @@
 -- select all articles whose author is user3
-SELECT article
+SELECT body
 FROM articles
 WHERE user_id = 3;
 
 /*
 +----------------------+
-| article              |
+| body                 |
 +----------------------+
 | adipisicing elit sed |
 | do eiusmod tempor    |
@@ -15,37 +15,37 @@ WHERE user_id = 3;
 
 -- Above query using variable (using variable also)
 SET @var_id := 3;
-SELECT article 
+SELECT body
 FROM articles
 WHERE user_id = @var_id;
 
 /*
 +----------------------+
-| article              |
+| body                 |
 +----------------------+
 | adipisicing elit sed |
 | do eiusmod tempor    |
 +----------------------+
-2 rows in set (0.01 sec)
+2 rows in set (0.00 sec)
 */
 
 -- For articles above, select all the articles and also the comments associated with those articles 
-SELECT A.article, C.comment
+SELECT A.body as article_body, C.body as comment_body
 FROM articles A, comments C
 WHERE A.user_id = 3
 AND A.id = C.article_id;
 
 /*
-+----------------------+---------+
-| article              | comment |
-+----------------------+---------+
-| adipisicing elit sed | Ut enim |
-+----------------------+---------+
++----------------------+--------------+
+| article_body         | comment_body |
++----------------------+--------------+
+| adipisicing elit sed | Ut enim      |
++----------------------+--------------+
 1 row in set (0.00 sec)
 */
 
 -- Above query using variable (using subquery also)
-SELECT (SELECT article FROM articles WHERE id = article_id) article, comment
+SELECT article_id, body
 FROM comments
 WHERE article_id IN (
   SELECT id FROM articles 
@@ -53,24 +53,23 @@ WHERE article_id IN (
 );
 
 /*
-+----------------------+---------+
-| article              | comment |
-+----------------------+---------+
-| adipisicing elit sed | Ut enim |
-+----------------------+---------+
++------------+---------+
+| article_id | body    |
++------------+---------+
+|          3 | Ut enim |
++------------+---------+
 1 row in set (0.00 sec)
-
 */
 
 -- query to select all articles which do not have any comments (using subquery also)
-SELECT article
+SELECT A.body
 FROM articles A LEFT JOIN comments C
 ON(A.id = C.article_id)
-WHERE comment IS NULL;
+WHERE C.body IS NULL;
 
 /*
 +-------------------+
-| article           |
+| body              |
 +-------------------+
 | do eiusmod tempor |
 | incid Ut          |
@@ -79,13 +78,13 @@ WHERE comment IS NULL;
 */
 
 -- Above query using variable (using subquery also)
-SELECT article
+SELECT body
 FROM articles
 WHERE id NOT IN (SELECT article_id FROM comments);
 
 /*
 +-------------------+
-| article           |
+| body              |
 +-------------------+
 | do eiusmod tempor |
 | incid Ut          |
@@ -94,36 +93,41 @@ WHERE id NOT IN (SELECT article_id FROM comments);
 */
 
 -- query to select article which has maximum comments
-SELECT article, count(C.article_id) AS count
+SELECT A.body, count(C.article_id) AS commentCount
 FROM articles A, comments C
 WHERE A.id = C.article_id
 GROUP BY C.article_id
-ORDER BY count DESC
-LIMIT 1;
-
+HAVING commentCount = (
+  SELECT count(C.article_id) AS count
+  FROM articles A, comments C
+  WHERE A.id = C.article_id
+  GROUP BY C.article_id
+  ORDER BY count DESC
+  LIMIT 1
+);
 /*
-+-------------------+---------------------+
-| article           | count(C.article_id) |
-+-------------------+---------------------+
-| Lorem ipsum dolor |                   3 |
-+-------------------+---------------------+
-1 row in set (0.00 sec)
++-------------------+--------------+
+| body              | commentCount |
++-------------------+--------------+
+| Lorem ipsum dolor |            3 |
++-------------------+--------------+
+1 row in set (0.01 sec)
 */
 
 -- query to select article which does not have more than one comment by the same user(using left join and group by)
-SELECT article, Count(*)
+SELECT A.body, Count(*) count
 FROM articles A LEFT JOIN comments C
 ON(A.id = C.article_id)
 GROUP BY C.user_id, C.article_id
-HAVING Count(*) = 1;
+HAVING count <= 1;
 
 /*
-+----------------------+----------+
-| article              | Count(*) |
-+----------------------+----------+
-| Lorem ipsum dolor    |        1 |
-| incididunt ut labore |        1 |
-| adipisicing elit sed |        1 |
-+----------------------+----------+
-3 rows in set (0.01 sec)
++----------------------+-------+
+| body                 | count |
++----------------------+-------+
+| Lorem ipsum dolor    |     1 |
+| incididunt ut labore |     1 |
+| adipisicing elit sed |     1 |
++----------------------+-------+
+3 rows in set (0.00 sec)
 */
