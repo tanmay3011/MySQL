@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (i686)
 --
--- Host: localhost    Database: company
+-- Host: localhost    Database: ckms
 -- ------------------------------------------------------
 -- Server version	5.5.34-0ubuntu0.13.04.1
 
@@ -23,9 +23,8 @@ DROP TABLE IF EXISTS `project_techs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `project_techs` (
-  `id` varchar(4) NOT NULL DEFAULT '',
-  `technology_id` varchar(4) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`,`technology_id`),
+  `id` bigint(20) DEFAULT NULL,
+  `technology_id` bigint(20) DEFAULT NULL,
   KEY `technology_id` (`technology_id`),
   CONSTRAINT `project_techs_ibfk_1` FOREIGN KEY (`technology_id`) REFERENCES `technologies` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -37,7 +36,7 @@ CREATE TABLE `project_techs` (
 
 LOCK TABLES `project_techs` WRITE;
 /*!40000 ALTER TABLE `project_techs` DISABLE KEYS */;
-INSERT INTO `project_techs` VALUES ('P1','T1'),('P6','T1'),('P8','T1'),('P1','T2'),('P6','T2'),('P8','T2'),('P1','T3'),('P5','T3'),('P8','T3'),('P1','T4'),('P5','T4'),('P8','T4'),('P2','T5'),('P4','T5'),('P7','T5'),('P9','T5'),('P3','T6'),('P4','T6'),('P6','T6'),('P7','T6'),('P8','T6');
+INSERT INTO `project_techs` VALUES (1,1),(1,2),(1,3),(1,4),(2,5),(3,6),(4,5),(4,6),(5,3),(5,4),(6,1),(6,2),(6,6),(7,6),(7,5),(8,1),(8,2),(8,3),(8,4),(8,6),(9,5);
 /*!40000 ALTER TABLE `project_techs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -49,8 +48,8 @@ DROP TABLE IF EXISTS `projects`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `projects` (
-  `id` varchar(4) NOT NULL DEFAULT '',
-  `status` varchar(20) DEFAULT NULL,
+  `id` bigint(20) NOT NULL DEFAULT '0',
+  `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -61,7 +60,7 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES ('P1','Completed'),('P2','Completed'),('P3','Completed'),('P4','Completed'),('P5','Working'),('P6','Working'),('P7','Completed'),('P8','Completed'),('P9','Completed');
+INSERT INTO `projects` VALUES (1,'Completed'),(2,'Completed'),(3,'Completed'),(4,'Completed'),(5,'Working'),(6,'Working'),(7,'Completed'),(8,'Completed'),(9,'Completed');
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,8 +72,8 @@ DROP TABLE IF EXISTS `technologies`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `technologies` (
-  `id` varchar(4) NOT NULL DEFAULT '',
-  `name` varchar(20) DEFAULT NULL,
+  `id` bigint(20) NOT NULL DEFAULT '0',
+  `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -85,7 +84,7 @@ CREATE TABLE `technologies` (
 
 LOCK TABLES `technologies` WRITE;
 /*!40000 ALTER TABLE `technologies` DISABLE KEYS */;
-INSERT INTO `technologies` VALUES ('T1','HTML'),('T2','Javascript'),('T3','Ruby'),('T4','Rails'),('T5','IOS'),('T6','Android');
+INSERT INTO `technologies` VALUES (1,'HTML'),(2,'Javascript'),(3,'Ruby'),(4,'Rails'),(5,'IOS'),(6,'Android');
 /*!40000 ALTER TABLE `technologies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,8 +96,8 @@ DROP TABLE IF EXISTS `user_projects`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_projects` (
-  `user_id` varchar(4) DEFAULT NULL,
-  `project_id` varchar(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `project_id` bigint(20) DEFAULT NULL,
   KEY `user_id` (`user_id`),
   KEY `project_id` (`project_id`),
   CONSTRAINT `user_projects_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
@@ -112,7 +111,7 @@ CREATE TABLE `user_projects` (
 
 LOCK TABLES `user_projects` WRITE;
 /*!40000 ALTER TABLE `user_projects` DISABLE KEYS */;
-INSERT INTO `user_projects` VALUES ('A','P1'),('A','P2'),('A','P3'),('A','P6'),('B','P1'),('B','P3'),('B','P7'),('B','P9'),('C','P1'),('C','P2'),('C','P8'),('C','P9'),('D','P1'),('D','P2'),('D','P4'),('D','P5'),('D','P6');
+INSERT INTO `user_projects` VALUES (1,1),(1,2),(1,3),(1,6),(2,1),(2,3),(2,7),(2,9),(3,1),(3,2),(3,8),(3,9),(4,1),(4,2),(4,4),(4,5),(4,6);
 /*!40000 ALTER TABLE `user_projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,8 +123,8 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `id` varchar(4) NOT NULL DEFAULT '',
-  `user` varchar(6) DEFAULT NULL,
+  `id` bigint(20) NOT NULL DEFAULT '0',
+  `name` varchar(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -136,7 +135,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('A','UserA'),('B','UserB'),('C','UserC'),('D','UserD');
+INSERT INTO `users` VALUES (1,'UserA'),(2,'UserB'),(3,'UserC'),(4,'UserD');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -149,4 +148,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-15  0:11:06
+-- Dump completed on 2014-07-16  1:23:11
