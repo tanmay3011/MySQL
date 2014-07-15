@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (i686)
 --
--- Host: localhost    Database: exercise2
+-- Host: localhost    Database: sandwich_multibranch
 -- ------------------------------------------------------
 -- Server version	5.5.34-0ubuntu0.13.04.1
 
@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS `Branches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Branches` (
-  `BCode` varchar(3) NOT NULL DEFAULT '',
-  `Librarian` varchar(20) DEFAULT NULL,
-  `Address` varchar(30) DEFAULT NULL,
+  `BCode` bigint(20) NOT NULL DEFAULT '0',
+  `Librarian` varchar(255) DEFAULT NULL,
+  `Address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`BCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -36,7 +36,7 @@ CREATE TABLE `Branches` (
 
 LOCK TABLES `Branches` WRITE;
 /*!40000 ALTER TABLE `Branches` DISABLE KEYS */;
-INSERT INTO `Branches` VALUES ('B1','John Smith','2 Anglesa Rd'),('B2','Mary Jones','34 Pearse Rd'),('B3','Francis Owens','Grange X');
+INSERT INTO `Branches` VALUES (1,'John Smith','2 Anglesa Rd'),(2,'Mary Jones','34 Pearse Rd'),(3,'Francis Owens','Grange X');
 /*!40000 ALTER TABLE `Branches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -48,8 +48,8 @@ DROP TABLE IF EXISTS `Holdings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Holdings` (
-  `Branch` varchar(3) DEFAULT NULL,
-  `Title` varchar(20) DEFAULT NULL,
+  `Branch` bigint(20) DEFAULT NULL,
+  `Title` varchar(255) DEFAULT NULL,
   `copies` int(11) DEFAULT NULL,
   KEY `Branch` (`Branch`),
   KEY `Title` (`Title`),
@@ -64,7 +64,7 @@ CREATE TABLE `Holdings` (
 
 LOCK TABLES `Holdings` WRITE;
 /*!40000 ALTER TABLE `Holdings` DISABLE KEYS */;
-INSERT INTO `Holdings` VALUES ('B1','Susannah',3),('B1','How to Fish',2),('B1','A History of Dublin',1),('B2','How to Fish',4),('B2','Computers',2),('B2','The Wife',3),('B3','A History of Dublin',1),('B3','Computers',4),('B3','Susannah',3),('B3','The Wife',1);
+INSERT INTO `Holdings` VALUES (1,'Susannah',3),(1,'How to Fish',2),(1,'A History of Dublin',1),(2,'How to Fish',4),(2,'Computers',2),(2,'The Wife',3),(3,'A History of Dublin',1),(3,'Computers',4),(3,'Susannah',3),(3,'The Wife',1);
 /*!40000 ALTER TABLE `Holdings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,9 +76,9 @@ DROP TABLE IF EXISTS `Locations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Locations` (
-  `lname` varchar(20) NOT NULL DEFAULT '',
+  `lname` varchar(50) NOT NULL DEFAULT '',
   `phone` int(11) DEFAULT NULL,
-  `address` varchar(20) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`lname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -101,10 +101,10 @@ DROP TABLE IF EXISTS `Sandwiches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Sandwiches` (
-  `location` varchar(20) NOT NULL DEFAULT '',
-  `bread` varchar(20) NOT NULL DEFAULT '',
-  `filling` varchar(20) NOT NULL DEFAULT '',
-  `price` decimal(4,2) DEFAULT NULL,
+  `location` varchar(50) NOT NULL DEFAULT '',
+  `bread` varchar(30) NOT NULL DEFAULT '',
+  `filling` varchar(30) NOT NULL DEFAULT '',
+  `price` decimal(5,2) DEFAULT NULL,
   PRIMARY KEY (`location`,`bread`,`filling`),
   CONSTRAINT `Sandwiches_ibfk_1` FOREIGN KEY (`location`) REFERENCES `Locations` (`lname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -128,8 +128,8 @@ DROP TABLE IF EXISTS `Tastes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Tastes` (
-  `name` varchar(20) NOT NULL DEFAULT '',
-  `filling` varchar(20) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `filling` varchar(30) NOT NULL DEFAULT '',
   PRIMARY KEY (`name`,`filling`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -152,9 +152,9 @@ DROP TABLE IF EXISTS `Titles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Titles` (
-  `Title` varchar(20) NOT NULL DEFAULT '',
-  `Author` varchar(20) DEFAULT NULL,
-  `Publisher` varchar(20) DEFAULT NULL,
+  `Title` varchar(255) NOT NULL DEFAULT '',
+  `Author` varchar(255) DEFAULT NULL,
+  `Publisher` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -178,4 +178,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-13 12:34:37
+-- Dump completed on 2014-07-16  0:57:47

@@ -35,7 +35,7 @@ AND T.name = 'Jones';
 */
 
 -- (iii) for each location the number of people who can eat there.
-SELECT L.location, COUNT(DISTINCT T.name)
+SELECT L.lname, COUNT(DISTINCT T.name)
 FROM Locations L, Tastes T, Sandwiches S
 WHERE  L.lname = S.location
 AND T.filling = S.filling

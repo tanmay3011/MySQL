@@ -1,7 +1,7 @@
 -- select names of library books of publisher macmilan
 SELECT Title
 FROM Titles
-WHERE Publisher LIKE '%Macmilan%';
+WHERE Publisher = "Macmilan";
 
 /*
 +----------+
@@ -26,27 +26,28 @@ WHERE Title IN (
 +--------+
 | Branch |
 +--------+
-| B1     |
-| B2     |
-| B3     |
+|      1 |
+|      2 |
+|      3 |
 +--------+
 3 rows in set (0.00 sec)
 */
 
 -- branches tht hold any book by ann brown(without subquery)
 SELECT DISTINCT H.Branch
-FROM Titles T, Holdings H
-WHERE T.Title = H.Title
-AND T.Author = "Ann Brown";
+FROM Titles T JOIN Holdings H
+WHERE T.Author = "Ann Brown";
 
 /*
 +--------+
 | Branch |
 +--------+
-| B1     |
-| B2     |
-| B3     |
+|      1 |
+|      2 |
+|      3 |
 +--------+
+3 rows in set (0.00 sec)
+
 3 rows in set (0.00 sec)
 */
 
@@ -59,9 +60,9 @@ GROUP BY Branch;
 +--------+-------------+
 | Branch | SUM(copies) |
 +--------+-------------+
-| B1     |           6 |
-| B2     |           9 |
-| B3     |           9 |
+|      1 |           6 |
+|      2 |           9 |
+|      3 |           9 |
 +--------+-------------+
 3 rows in set (0.00 sec)
 */
