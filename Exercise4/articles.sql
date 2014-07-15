@@ -64,7 +64,7 @@ WHERE article_id IN (
 -- query to select all articles which do not have any comments (using subquery also)
 SELECT A.body
 FROM articles A LEFT JOIN comments C
-ON(A.id = C.article_id)
+ON A.id = C.article_id
 WHERE C.body IS NULL;
 
 /*
@@ -117,7 +117,7 @@ HAVING commentCount = (
 -- query to select article which does not have more than one comment by the same user(using left join and group by)
 SELECT A.body, Count(*) count
 FROM articles A LEFT JOIN comments C
-ON(A.id = C.article_id)
+ON A.id = C.article_id 
 GROUP BY C.user_id, C.article_id
 HAVING count <= 1;
 
