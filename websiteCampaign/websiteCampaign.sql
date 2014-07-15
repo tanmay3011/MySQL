@@ -16,65 +16,75 @@ FROM users;
 */
 
 -- How many people responded from each city
-SELECT DISTINCT city, COUNT(city) AS COUNT
+SELECT city, COUNT(city) AS respondent_count
 FROM users
-GROUP BY (city);
+GROUP BY city;
 /*
-+-----------+-------------+
-| city      | COUNT(city) |
-+-----------+-------------+
-|  Chennai  |          42 |
-|  Delhi    |          40 |
-|  Kolkatta |          38 |
-|  Lucknow  |          39 |
-|  Mumbai   |          41 |
-+-----------+-------------+
++-----------+------------------+
+| city      | respondent_count |
++-----------+------------------+
+|  Chennai  |               42 |
+|  Delhi    |               40 |
+|  Kolkatta |               38 |
+|  Lucknow  |               39 |
+|  Mumbai   |               41 |
++-----------+------------------+
 5 rows in set (0.00 sec)
 */
 
 
 -- Which city were the maximum respondents from?
-SELECT DISTINCT city, COUNT(city) AS COUNT
+SELECT city, COUNT(city) AS respondent_count
 FROM users
-GROUP BY (city)
-ORDER BY COUNT DESC
-LIMIT 1;
+GROUP BY city
+HAVING respondent_count = (
+  SELECT COUNT(city) AS respondent_count
+  FROM users
+  GROUP BY city
+  ORDER BY respondent_count DESC
+  LIMIT 1
+);
 /*
-+----------+-------+
-| city     | COUNT |
-+----------+-------+
-|  Chennai |    42 |
-+----------+-------+
-1 row in set (0.00 sec)
++----------+------------------+
+| city     | respondent_count |
++----------+------------------+
+|  Chennai |               42 |
++----------+------------------+
+1 row in set (0.01 sec)
 */
 
 -- What all email domains did people respond from ?
-SELECT DISTINCT(substring_index(email, '@', -1))
+SELECT DISTINCT(substring_index(email, '@', -1)) AS Domain
 FROM users;
 /*
-+-----------------------------------+
-| (substring_index(email, '@', -1)) |
-+-----------------------------------+
-| hotmail.com                       |
-| yahoo.com                         |
-| me.com                            |
-| gmail.com                         |
-+-----------------------------------+
++--------------+
+| Domain       |
++--------------+
+| hotmail.com  |
+| yahoo.com    |
+| me.com       |
+| gmail.com    |
++--------------+
 4 rows in set (0.00 sec)
 */
 
 -- Which is the most popular email domain among the respondents ?
-SELECT DISTINCT(substring_index(email, '@', -1)) AS domain , COUNT(email) AS COUNT
+SELECT substring_index(email, '@', -1) AS domain , COUNT(email) AS domain_count
 FROM users
 GROUP BY domain
-ORDER BY COUNT DESC
-LIMIT 1;
-
+HAVING domain_count = (
+  SELECT COUNT(email) AS domain_count
+  FROM users
+  GROUP BY substring_index(email, '@', -1)
+  ORDER BY domain_count DESC
+  LIMIT 1
+);
 /*
-+------------+-------+
-| domain     | COUNT |
-+------------+-------+
-| yahoo.com  |    51 |
-+------------+-------+
-1 row in set (0.00 sec)
++------------+--------------+
+| domain     | domain_count |
++------------+--------------+
+| me.com     |           51 |
+| yahoo.com  |           51 |
++------------+--------------+
+2 rows in set (0.00 sec)
 */
