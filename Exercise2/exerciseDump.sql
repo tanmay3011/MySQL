@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (i686)
 --
--- Host: localhost    Database: sandwich_multibranch
+-- Host: localhost    Database: exercise1
 -- ------------------------------------------------------
 -- Server version	5.5.34-0ubuntu0.13.04.1
 
@@ -23,11 +23,12 @@ DROP TABLE IF EXISTS `Branches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Branches` (
-  `BCode` bigint(20) NOT NULL DEFAULT '0',
+  `BCode` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `Librarian` varchar(255) DEFAULT NULL,
   `Address` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`BCode`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`BCode`),
+  UNIQUE KEY `BCode` (`BCode`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +49,7 @@ DROP TABLE IF EXISTS `Holdings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Holdings` (
-  `Branch` bigint(20) DEFAULT NULL,
+  `Branch` bigint(20) unsigned DEFAULT NULL,
   `Title` varchar(255) DEFAULT NULL,
   `copies` int(11) DEFAULT NULL,
   KEY `Branch` (`Branch`),
@@ -76,10 +77,10 @@ DROP TABLE IF EXISTS `Locations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Locations` (
-  `lname` varchar(50) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
   `phone` int(11) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`lname`)
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -101,12 +102,12 @@ DROP TABLE IF EXISTS `Sandwiches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Sandwiches` (
-  `location` varchar(50) NOT NULL DEFAULT '',
-  `bread` varchar(30) NOT NULL DEFAULT '',
-  `filling` varchar(30) NOT NULL DEFAULT '',
+  `location` varchar(255) NOT NULL DEFAULT '',
+  `bread` varchar(255) NOT NULL DEFAULT '',
+  `filling` varchar(255) NOT NULL DEFAULT '',
   `price` decimal(5,2) DEFAULT NULL,
   PRIMARY KEY (`location`,`bread`,`filling`),
-  CONSTRAINT `Sandwiches_ibfk_1` FOREIGN KEY (`location`) REFERENCES `Locations` (`lname`)
+  CONSTRAINT `Sandwiches_ibfk_1` FOREIGN KEY (`location`) REFERENCES `Locations` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -129,7 +130,7 @@ DROP TABLE IF EXISTS `Tastes`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Tastes` (
   `name` varchar(255) NOT NULL DEFAULT '',
-  `filling` varchar(30) NOT NULL DEFAULT '',
+  `filling` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`name`,`filling`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -178,4 +179,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-16  0:57:47
+-- Dump completed on 2014-07-17 15:34:34

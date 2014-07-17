@@ -19,10 +19,10 @@ WHERE filling =
 */
 
 -- (ii) places where Jones can eat (without using a nested subquery).
-SELECT S.location
-FROM Sandwiches S, Tastes T
-WHERE S.filling = T.filling
-AND T.name = 'Jones';
+SELECT Sandwiches.location
+FROM Sandwiches JOIN Tastes
+ON Sandwiches.filling = Tastes.filling
+AND Tastes.name = 'Jones';
 
 /*
 +-----------+
@@ -35,11 +35,11 @@ AND T.name = 'Jones';
 */
 
 -- (iii) for each location the number of people who can eat there.
-SELECT L.lname, COUNT(DISTINCT T.name)
-FROM Locations L, Tastes T, Sandwiches S
-WHERE  L.lname = S.location
-AND T.filling = S.filling
-GROUP BY S.location;
+SELECT Locations.name, COUNT(DISTINCT Tastes.name)
+FROM Locations JOIN Sandwiches 
+ON Locations.name = Sandwiches.location
+JOIN Tastes ON Tastes.filling = Sandwiches.filling
+GROUP BY Sandwiches.location;
 
 /*
 +-----------+------------------------+

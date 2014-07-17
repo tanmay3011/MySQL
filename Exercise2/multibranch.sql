@@ -34,9 +34,9 @@ WHERE Title IN (
 */
 
 -- branches tht hold any book by ann brown(without subquery)
-SELECT DISTINCT H.Branch
-FROM Titles T JOIN Holdings H
-WHERE T.Author = "Ann Brown";
+SELECT DISTINCT Holdings.Branch
+FROM Titles JOIN Holdings
+WHERE Titles.Author = "Ann Brown";
 
 /*
 +--------+
