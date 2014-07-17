@@ -30,10 +30,10 @@ WHERE user_id = @var_id;
 */
 
 -- For articles above, select all the articles and also the comments associated with those articles 
-SELECT A.body as article_body, C.body as comment_body
-FROM articles A, comments C
-WHERE A.user_id = 3
-AND A.id = C.article_id;
+SELECT articles.body as article_body, comments.body as comment_body
+FROM articles JOIN comments
+WHERE articles.user_id = 3
+AND articles.id = comments.article_id;
 
 /*
 +----------------------+--------------+
@@ -62,10 +62,10 @@ WHERE article_id IN (
 */
 
 -- query to select all articles which do not have any comments (using subquery also)
-SELECT A.body
-FROM articles A LEFT JOIN comments C
-ON A.id = C.article_id
-WHERE C.body IS NULL;
+SELECT articles.body
+FROM articles LEFT JOIN comments
+ON articles.id = comments.article_id
+WHERE comments.body IS NULL;
 
 /*
 +-------------------+
@@ -93,15 +93,15 @@ WHERE id NOT IN (SELECT article_id FROM comments);
 */
 
 -- query to select article which has maximum comments
-SELECT A.body, count(C.article_id) AS commentCount
-FROM articles A, comments C
-WHERE A.id = C.article_id
-GROUP BY C.article_id
+SELECT articles.body, count(comments.article_id) AS commentCount
+FROM articles, comments
+WHERE articles.id = comments.article_id
+GROUP BY comments.article_id
 HAVING commentCount = (
-  SELECT count(C.article_id) AS count
-  FROM articles A, comments C
-  WHERE A.id = C.article_id
-  GROUP BY C.article_id
+  SELECT count(comments.article_id) AS count
+  FROM articles, comments
+  WHERE articles.id = comments.article_id
+  GROUP BY comments.article_id
   ORDER BY count DESC
   LIMIT 1
 );
@@ -115,10 +115,10 @@ HAVING commentCount = (
 */
 
 -- query to select article which does not have more than one comment by the same user(using left join and group by)
-SELECT A.body, Count(*) count
-FROM articles A LEFT JOIN comments C
-ON A.id = C.article_id 
-GROUP BY C.user_id, C.article_id
+SELECT articles.body, Count(*) count
+FROM articles LEFT JOIN comments
+ON articles.id = comments.article_id 
+GROUP BY comments.user_id, comments.article_id
 HAVING count <= 1;
 
 /*

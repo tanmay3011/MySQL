@@ -52,14 +52,17 @@ DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comments` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `body` text,
   `user_id` bigint(20) unsigned DEFAULT NULL,
   `article_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
   KEY `user_id` (`user_id`),
   KEY `article_id` (`article_id`),
   CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +71,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES ('et dolore',5,1),('magna aliqua',4,2),('Ut enim',3,3),('ad minim',1,1),('veniam quis',2,5),('nostrud exercitation',5,1),('ullamco laboris',4,2),('et dolore',5,1),('magna aliqua',4,2),('Ut enim',3,3),('ad minim',1,1),('veniam quis',2,5),('nostrud exercitation',5,1),('ullamco laboris',4,2);
+INSERT INTO `comments` VALUES (1,'et dolore',5,1),(2,'magna aliqua',4,2),(3,'Ut enim',3,3),(4,'ad minim',1,1),(5,'veniam quis',2,5),(6,'nostrud exercitation',5,1),(7,'ullamco laboris',4,2);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,4 +109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-15 23:37:49
+-- Dump completed on 2014-07-17 15:51:52
