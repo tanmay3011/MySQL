@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.34, for debian-linux-gnu (i686)
 --
--- Host: localhost    Database: websitesCampaign
+-- Host: localhost    Database: testing
 -- ------------------------------------------------------
 -- Server version	5.5.34-0ubuntu0.13.04.1
 
@@ -23,10 +23,12 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `email` varchar(255) NOT NULL DEFAULT '',
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) DEFAULT NULL,
   `phone_no` int(11) DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`email`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -48,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-07-17 16:35:32
+-- Dump completed on 2014-07-18 19:48:40
