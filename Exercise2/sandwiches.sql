@@ -1,6 +1,7 @@
 -- (i) places where Jones can eat (using a nested subquery).
-SELECT location
-FROM Sandwiches
+SELECT Locations.name
+FROM Locations JOIN Sandwiches
+ON Locations.id = Sandwiches.location_id
 WHERE filling = 
 ( 
   SELECT filling 
@@ -10,7 +11,7 @@ WHERE filling =
 
 /*
 +-----------+
-| location  |
+| name      |
 +-----------+
 | O'Neill's |
 | Buttery   |
@@ -19,14 +20,14 @@ WHERE filling =
 */
 
 -- (ii) places where Jones can eat (without using a nested subquery).
-SELECT Sandwiches.location
-FROM Sandwiches JOIN Tastes
-ON Sandwiches.filling = Tastes.filling
+SELECT Locations.name
+FROM Locations JOIN Sandwiches ON Locations.id = Sandwiches.location_id
+JOIN Tastes ON Sandwiches.filling = Tastes.filling
 AND Tastes.name = 'Jones';
 
 /*
 +-----------+
-| location  |
+| name      |
 +-----------+
 | O'Neill's |
 | Buttery   |
@@ -37,18 +38,18 @@ AND Tastes.name = 'Jones';
 -- (iii) for each location the number of people who can eat there.
 SELECT Locations.name, COUNT(DISTINCT Tastes.name)
 FROM Locations JOIN Sandwiches 
-ON Locations.name = Sandwiches.location
+ON Locations.id = Sandwiches.location_id
 JOIN Tastes ON Tastes.filling = Sandwiches.filling
-GROUP BY Sandwiches.location;
+GROUP BY Sandwiches.location_id;
 
 /*
-+-----------+------------------------+
-| lname     | COUNT(DISTINCT T.name) |
-+-----------+------------------------+
-| Buttery   |                      3 |
-| Lincoln   |                      2 |
-| O'Neill's |                      3 |
-| Old Nag   |                      2 |
-+-----------+------------------------+
++-----------+-----------------------------+
+| name      | COUNT(DISTINCT Tastes.name) |
++-----------+-----------------------------+
+| Lincoln   |                           2 |
+| O'Neill's |                           3 |
+| Old Nag   |                           2 |
+| Buttery   |                           3 |
++-----------+-----------------------------+
 4 rows in set (0.00 sec)
 */
